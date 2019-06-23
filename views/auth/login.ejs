@@ -1,0 +1,28 @@
+<%- include('../includes/start.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navbar.ejs') %>
+
+    <section id="loginFormSection">
+        <div id="loginFormContainer">
+            <h1 class="text-center mb-5">LOGIN</h1>
+            <form action="login" method="POST">
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <label for="rollNo">Roll Number</label>
+                        <input name="rollNo" class="form-control" type="text">
+                    </div>
+                    <div class="col-12 form-group">
+                        <label for="password">Password</label>
+                        <input name="password" class="form-control" type="password">
+                    </div>
+                    <div class="col-12 form-group mt-5 ">
+                        <button type="submit" class="btn btn-block btn-primary">LOGIN</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <%- include('../includes/end.ejs') %>

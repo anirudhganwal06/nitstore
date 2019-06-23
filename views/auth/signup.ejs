@@ -1,0 +1,51 @@
+<%- include('../includes/start.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navbar.ejs') %>
+
+    <section id="signupFormSection">
+        <div id="signupFormContainer">
+            <h1 class="text-center mb-1">SIGN UP</h1>
+            <form action="/signup" method="POST">
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <label for="name">Full Name</label>
+                        <input name="name" class="form-control" type="text" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="rollNo">Roll Number</label>
+                        <input name="rollNo" class="form-control" type="text" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="semester">Semester</label>
+                        <input name="semester" class="form-control" type="text" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="email">Email</label>
+                        <input name="email" class="form-control" type="email" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <input name="mobile" class="form-control" type="tel" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="password">Password</label>
+                        <input id="password" name="password" class="form-control" type="password" onkeyup="comparePasswords();" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input id="confirmPassword" name="confirmPassword" class="form-control" type="password"  onkeyup="comparePasswords();" required>
+                    </div>
+                    <div class="col-12 form-group">
+                        <p id="passwordComparisonMessage" class="text-center"></p>
+                    </div>
+                    <div class="col-12 form-group mt-3 ">
+                        <button type="submit" class="btn btn-block btn-primary">SIGNUP</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <%- include('../includes/end.ejs') %>

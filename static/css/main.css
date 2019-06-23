@@ -1,0 +1,63 @@
+/**********************  common  **********************/
+
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 300px;
+}
+
+section {
+    padding: 40px 0;
+}
+
+/*****************  bootstrap customisation  **********/
+
+.form-control,
+.form-control:active,
+.form-control:focus {
+    color: black;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/**********************  login  ***********************/
+
+#loginFormContainer {
+    width: 40%;
+    min-width: 500px;
+    margin: auto;
+    padding: 60px 30px;
+    background-image: linear-gradient(#122D37dd, #122D37dd), url('../images/loginFormBG.jfif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 576px) {
+    #loginFormContainer {
+        width: 90%;
+        min-width: 100px;
+    }
+}
+
+/**********************  signup  **********************/
+
+#signupFormContainer {
+    width: 40%;
+    min-width: 500px;
+    margin: auto;
+    padding: 30px;
+    background-image: linear-gradient(#122D37dd, #122D37dd), url('../images/loginFormBG.jfif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 576px) {
+    #signupFormContainer {
+        width: 90%;
+        min-width: 100px;
+    }
+}
