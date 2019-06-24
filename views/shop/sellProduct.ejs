@@ -1,0 +1,40 @@
+<%- include('../includes/start.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navbar.ejs') %>
+
+    <section id="sellProductFormSection">
+        <div id="sellProductFormContainer">
+            <h1 class="text-center mb-3">SELL PRODUCT</h1>
+            <form action="/<%= rollNo %>/sell" method="POST">
+                <div class="row">
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="name">Product Name</label>
+                        <input name="name" class="form-control" type="text" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="price">Product Price</label>
+                        <input name="price" class="form-control" type="text" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="mobile">Contact Mobile Number</label>
+                        <input name="mobile" class="form-control" type="text" value="<%= mobile %>" required>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <label for="email">Contact Email</label>
+                        <input name="email" class="form-control" type="text" value="<%= email %>" required>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label for="description">Product Description</label>
+                        <textarea name="description" class="form-control" type="text" rows="3" required></textarea>
+                    </div>
+                    <div class="col-12 form-group mt-3 ">
+                        <button type="submit" class="btn btn-block btn-primary">SET FOR SALE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <%- include('../includes/end.ejs') %>

@@ -4,7 +4,8 @@ const User = require('../models/user');
 
 exports.getLogin = (req, res) => {
     res.render('auth/login', {
-        pagetitle: 'Login'
+        pagetitle: 'Login',
+        isLoggedIn: false
     });
 };
 
@@ -17,7 +18,10 @@ exports.postLogin = (req, res) => {
                 bcrypt.compare(password, user.password)
                     .then(passwordMatch => {
                         if (passwordMatch) {
-                            res.redirect('/');
+                            req.session.isLoggedIn = true;
+                            req.session.rollNo = user.rollNo;
+                            req.session.username = user.name;
+                            res.redirect('/' + user.rollNo);
                         } else {
                             res.redirect('/login');
                             console.log('password incorrect');
@@ -38,7 +42,8 @@ exports.postLogin = (req, res) => {
 
 exports.getSignup = (req, res) => {
     res.render('auth/signup', {
-        pagetitle: 'Sign Up'
+        pagetitle: 'Sign Up',
+        isLoggedIn: false
     });
 };
 
@@ -84,4 +89,11 @@ exports.postSignup = (req, res) => {
         .catch(err => {
             console.log(err);
         });
+};
+
+exports.postLogout = (req, res, next) => {
+    req.session.destroy(err => {
+        // console.log(err);
+    });
+    res.redirect('/');
 };

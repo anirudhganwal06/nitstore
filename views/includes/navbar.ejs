@@ -2,7 +2,7 @@
     style="background-color: #112D37">
     <div class="container">
         <a class="navbar-brand" style="color: white" href="/"><img
-                src="images/nitkLogo.png" class="img-responsive"
+                src="/images/nitkLogo.png" class="img-responsive"
                 height="40px"></a>
 
 
@@ -12,12 +12,27 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar" style="float: right">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" style="padding: 8px 20px; font-weight: 600" href="/signup">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="padding: 8px 20px; font-weight: 600" href="/login">Login</a>
-                </li>
+                <% if (isLoggedIn) { %>
+                    <li class="nav-item">
+                        <a class="nav-link" style="padding: 8px 20px; font-weight: 600"
+                            href="/<%= rollNo %>/sell">Sell Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" title="<%= username %>" style="padding: 8px 20px; font-weight: 600" href="/"><%= username.split(' ')[0] %></a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="/<%= rollNo %>/logout" method="POST">
+                            <button type="submit" class="nav-link btn" style="padding: 8px 20px; font-weight: 600; border: none; outline: none; box-shadow: none;">Logout</button>
+                        </form>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a class="nav-link" style="padding: 8px 20px; font-weight: 600" href="/signup">Sign Up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" style="padding: 8px 20px; font-weight: 600" href="/login">Login</a>
+                    </li>
+                <% } %>
             </ul>
         </div>
     </div>

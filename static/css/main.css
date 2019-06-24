@@ -61,3 +61,24 @@ section {
         min-width: 100px;
     }
 }
+
+/********************* sell product  ******************/
+
+#sellProductFormContainer {
+    width: 40%;
+    min-width: 500px;
+    margin: auto;
+    padding: 30px;
+    background-image: linear-gradient(#122D37dd, #122D37dd), url('../images/loginFormBG.jfif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 576px) {
+    #sellProductFormContainer {
+        width: 90%;
+        min-width: 100px;
+    }
+}

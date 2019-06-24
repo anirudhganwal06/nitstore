@@ -1,5 +1,6 @@
 exports.getHomepage = (req, res) => {
     res.render('main/home', {
-        pagetitle: 'NIT Store'
-    });
+        pagetitle: 'NIT Store',
+        isLoggedIn: false
+    });  
 };
