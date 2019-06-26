@@ -11,4 +11,6 @@ router.get('/:rollNo/sell', isAuth, shopController.getSellProduct);
 
 router.post('/:rollNo/sell', isAuth, shopController.postSellProduct);
 
+router.get('/:rollNo/product/:product_id', isAuth, shopController.getProductDetailPage);
+
 module.exports = router;

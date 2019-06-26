@@ -22,3 +22,7 @@ const comparePasswords = () => {
         }
     }
 };
+
+let showProductFullDetail = p => {
+    console.log(p);
+}

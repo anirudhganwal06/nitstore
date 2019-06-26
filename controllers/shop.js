@@ -4,12 +4,19 @@ const Product = require('../models/product');
 exports.getUserHomePage = (req, res, next) => {
     let username = req.session.username;
     let rollNo = req.params.rollNo;
-    res.render('main/home', {
-        pagetitle: 'NIT Store',
-        isLoggedIn: true,
-        username: username,
-        rollNo: rollNo
-    });
+    Product.find()
+        .then(products => {
+            res.render('main/home', {
+                pagetitle: 'NIT Store',
+                isLoggedIn: true,
+                username: username,
+                rollNo: rollNo,
+                products: products
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };
 
 exports.getSellProduct = (req, res, next) => {
@@ -52,4 +59,8 @@ exports.postSellProduct = (req, res, next) => {
             console.log(err);
         });
 
+};
+
+exports.getProductDetailPage = (req, res) => { 
+    console.log('Product details');
 };

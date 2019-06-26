@@ -1,6 +1,126 @@
 <%- include('../includes/start.ejs') %>
+	<style>
+
+		#searchBarSection .form-control {
+			border-top-left-radius: 20px;
+			border-bottom-left-radius: 20px;
+			border: 2px solid #aaa;
+		}
+
+		#searchBarSection .form-control:focus {
+			border-color: #122d37;
+			box-shadow: none;
+		}
+
+		#productsSection {
+			padding: 30px 0;
+		}
+
+		.productCol {
+			padding: 2px;
+		}
+
+		.productContainer {
+			background-color: #122d3708;
+			padding: 10px;
+			text-align: center;
+		}
+
+		.productContainer:hover {
+			background-color: #122d3710;
+		}
+
+		.productName {
+			font-size: 20px;
+			/* font-weight: 400; */
+			color: #122d37;
+		}
+
+		.productImage {
+			width: 100%;
+			height: 180px;
+		}
+
+		.productPrice {
+			font-size: 25px;
+			color: black;
+			padding-top: 10px;
+			margin-bottom: 10px;
+		}
+
+		#sortFilterSection {
+			text-align: center;
+			position: fixed;
+			bottom: 0;
+			padding: 0px;
+			width: 100vw;
+			font-size: 20px;
+		}
+
+		#sortFilterSection .col-6 {
+			padding: 10px 0;
+			background-color: #ccc;
+		}
+
+		#sortFilterSection .col-6:hover {
+			background-color:#aaa;
+		}
+
+		
+	</style>
 </head>
 
 <body>
-        <%- include('../includes/navbar.ejs') %>
-        <%- include('../includes/end.ejs') %>
+	
+	<%- include('../includes/navbar.ejs') %>
+
+	<section id="searchBarSection">
+		<div class="container">
+			<div class="row">
+				<div class="col-6">
+					<h1>Products</h1>
+				</div>
+				<div class="col-6">
+					<form>
+						<div class="form-group">
+							<input class="form-control" type="text" placeholder="Search...">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="productsSection">
+		<div class="container">
+			<div class="row justify-content-center">
+				<% for (let product of products) { %>
+					<div class="col-9 col-sm-6 col-md-4 col-lg-3 productCol">
+						<% if(isLoggedIn) { %>
+						<a href="/<%= rollNo %>/product/<%= product._id %>">
+						<% } else { %>		
+						<a href="/product/<%= product._id %>">
+						<% } %>
+							<div class="productContainer">
+								<h1 class="productName"><%= product.name %></h1>
+								<img class="productImage" src="/images/nitkLogo.png">
+								<h1 class="productPrice">Rs. <%= product.price %></h1>
+							</div>
+						</a>
+					</div>
+				<% } %>
+			</div>
+		</div>
+	</section>
+
+	<section id="sortFilterSection">
+		<div class="row">
+			<div class="col-6">
+				Filter
+			</div>
+			<div class="col-6">
+				Sort
+			</div>
+		</div>
+	</section>
+    <%- include('../includes/end.ejs') %>

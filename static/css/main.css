@@ -4,6 +4,12 @@ body {
     margin: 0;
     padding: 0;
     min-width: 300px;
+    font-family: 'Arial';
+}
+
+a,
+a:hover {
+    text-decoration: none;
 }
 
 section {
