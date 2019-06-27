@@ -1,0 +1,41 @@
+<%- include('../includes/start.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navbar.ejs') %>
+
+    <section class="product-detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 ">
+                    <img class="product-detail-image" src="/images/dummyChair.jpg" >
+                    <input name="product_id" value="<%= product._id %>" hidden>
+                    <input name="rollNo" value="<%= rollNo %>" hidden>
+                    <button class="btn theme-hover-btn-inverse btn-block" onclick="notifySeller(this);">NOTIFY SELLER ABOUT ME</button>
+                    <p class="green-color text-center" name="notify_message"></p>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="fields-container">
+                        <h1 class="product-detail-price">Rs. <%= product.price %></h1>
+                        <h1 class="product-detail-shortdesc"><%= product.shortdesc %></h1>
+                    </div>
+
+                    <div class="fields-container">
+                        <h1 class="heading-3">Product Description</h1>
+                        <p class="seller-field"><%= product.description %></p>
+                    </div>
+
+                    <div class="fields-container">
+                        <h1 class="heading-3">Seller Description</h1>
+                        <h1 class="seller-field"><span>Name:</span> <%= seller.name %></h1>
+                        <h1 class="seller-field"><span>Roll Number:</span> <%= seller.rollNo %></h1>
+                        <h1 class="seller-field"><span>Mobile:</span> <%= seller.mobile %></h1>
+                        <h1 class="seller-field"><span>Email:</span> <%= seller.email %></h1>
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../includes/end.ejs') %>

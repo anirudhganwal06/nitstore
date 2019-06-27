@@ -13,4 +13,6 @@ router.post('/:rollNo/sell', isAuth, shopController.postSellProduct);
 
 router.get('/:rollNo/product/:product_id', isAuth, shopController.getProductDetailPage);
 
+router.delete('/:rollNo/product/:product_id/notify-seller', isAuth, shopController.deleteNotifySeller);
+
 module.exports = router;

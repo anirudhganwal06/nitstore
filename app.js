@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const mongoDBStore = require('connect-mongodb-session')(session);
+const flash = require('connect-flash');
 
 const mongoURI = 'mongodb+srv://anirudhganwal06:mongodb06@cluster0-mqwgk.mongodb.net/test?retryWrites=true&w=majority';
 
@@ -25,6 +26,7 @@ app.use(session({
     saveUninitialized: false,
     store: sessionStore
 }));
+app.use(flash());
 
 const mainRoutes = require('./routes/main');
 const authRoutes = require('./routes/auth');
@@ -44,7 +46,7 @@ mongoose.connect(mongoURI, {
         useNewUrlParser: true
     })
     .then(() => {
-        app.listen(process.env.PORT || 5000, console.log('Server started...'));
+        app.listen(process.env.PORT || 4000, console.log('Server started...'));
     })
     .catch(err => {
         console.log(err);

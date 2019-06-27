@@ -23,6 +23,19 @@ const comparePasswords = () => {
     }
 };
 
-let showProductFullDetail = p => {
-    console.log(p);
+let notifySeller = btn => {
+    const product_id = btn.parentNode.querySelector('[name = product_id]').value;
+    const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
+    fetch('/' + rollNo + '/product/' + product_id + '/notify-seller', {
+        method: 'DELETE'
+    })
+        .then(result => {
+            return result.json();
+        })
+        .then(data => {
+            btn.parentNode.querySelector('[name = notify_message]').innerHTML = data.message;
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }

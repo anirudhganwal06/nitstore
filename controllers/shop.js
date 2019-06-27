@@ -9,8 +9,8 @@ exports.getUserHomePage = (req, res, next) => {
             res.render('main/home', {
                 pagetitle: 'NIT Store',
                 isLoggedIn: true,
-                username: username,
                 rollNo: rollNo,
+                username: username,
                 products: products
             });
         })
@@ -25,11 +25,11 @@ exports.getSellProduct = (req, res, next) => {
         .then(user => {
             res.render('shop/sellProduct', {
                 pagetitle: 'Sell Product',
+                isLoggedIn: true,
+                rollNo: req.params.rollNo,
                 username: req.session.username,
                 mobile: user.mobile,
                 email: user.email,
-                rollNo: req.params.rollNo,
-                isLoggedIn: true
             });
         })
         .catch(err => {
@@ -39,13 +39,16 @@ exports.getSellProduct = (req, res, next) => {
 
 exports.postSellProduct = (req, res, next) => {
     const rollNo = req.params.rollNo;
-    const name = req.body.name;
+    const shortdesc = req.body.shortdesc;
+    const sellerName = req.session.username;
     const price = req.body.price;
     const mobile = req.body.mobile;
     const email = req.body.email;
     const description = req.body.description;
     const product = new Product({
-        name: name,
+        shortdesc: shortdesc,
+        sellerName: sellerName,
+        sellerRollNo: rollNo,
         price: price,
         mobile: mobile,
         email: email,
@@ -61,6 +64,60 @@ exports.postSellProduct = (req, res, next) => {
 
 };
 
-exports.getProductDetailPage = (req, res) => { 
-    console.log('Product details');
+exports.getProductDetailPage = (req, res) => {
+    console.log('product details');
+    const product_id = req.params.product_id;
+    const rollNo = req.params.rollNo;
+    Product.findOne({
+            _id: product_id
+        })
+        .then(product => {
+            User.findOne({
+                rollNo: product.sellerRollNo
+            })
+                .then(seller => {
+                    res.render('shop/productDetail.ejs', {
+                        pagetitle: 'Product Details',
+                        isLoggedIn: true,
+                        rollNo: rollNo,
+                        username: req.session.username,
+                        product: product,
+                        seller: seller
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });  
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+exports.deleteNotifySeller = (req, res) => {
+    const rollNo = req.params.rollNo;
+    const product_id = req.params.product_id;
+    Product.findOne({
+        _id: product_id
+    })
+        .then(product => {
+            User.updateOne({
+                rollNo: product.sellerRollNo
+            }, {
+                    $push: {
+                        notifications: {
+                            title: 'Somebody is interested to buy your product'
+                        }
+                    }
+                })
+                .then(() => {
+                    res.json({ message: 'Notified Successfully' });
+                })
+                .catch(err => {
+                    console.log(err);
+                });   
+        })
+        .catch(err => {
+        console.log(err);
+    })
 };

@@ -5,7 +5,8 @@ const User = require('../models/user');
 exports.getLogin = (req, res) => {
     res.render('auth/login', {
         pagetitle: 'Login',
-        isLoggedIn: false
+        isLoggedIn: false,
+        loginError: req.flash('loginError')
     });
 };
 
@@ -23,16 +24,16 @@ exports.postLogin = (req, res) => {
                             req.session.username = user.name;
                             res.redirect('/' + user.rollNo);
                         } else {
+                            req.flash('loginError', 'Incorrect Password!')
                             res.redirect('/login');
-                            console.log('password incorrect');
                         }
                     })
                     .catch(err => {
                         console.log(err);
                     });
             } else {
+                req.flash('loginError', 'User Not Registed!');
                 res.redirect('/login');
-                console.log('student not found');
             }
         }) 
         .catch(err => {
@@ -43,7 +44,8 @@ exports.postLogin = (req, res) => {
 exports.getSignup = (req, res) => {
     res.render('auth/signup', {
         pagetitle: 'Sign Up',
-        isLoggedIn: false
+        isLoggedIn: false,
+        signupError: req.flash('signupError')
     });
 };
 
@@ -58,6 +60,7 @@ exports.postSignup = (req, res) => {
         .then(user => {
             if (user) {
                 console.log('User already exists!');
+                req.flash('signupError', 'User already registered!');
                 res.redirect('/signup');
             } else {
                 bcrypt.hash(password, 12)

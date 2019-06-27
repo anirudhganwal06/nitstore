@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const User = require('../models/user');
 
 exports.getHomePage = (req, res, next) => {
     Product.find()
@@ -16,4 +17,27 @@ exports.getHomePage = (req, res, next) => {
 
 exports.getProductDetailPage = (req, res) => {
     console.log('product details');
+    const product_id = req.params.product_id;
+    Product.findOne({
+            _id: product_id
+        })
+        .then(product => {
+            User.findOne({
+                    rollNo: product.sellerRollNo
+                })
+                .then(seller => {
+                    res.render('shop/productDetail.ejs', {
+                        pagetitle: 'Product Details',
+                        isLoggedIn: false,
+                        product: product,
+                        seller: seller
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };

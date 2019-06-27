@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     min-width: 300px;
-    font-family: 'Arial';
+    font-family: 'Raleway';
 }
 
 a,
@@ -16,6 +16,73 @@ section {
     padding: 40px 0;
 }
 
+.heading-1 {
+    font-size: 40px;
+}
+
+.heading-2 {
+    font-size: 36px;
+}
+
+.heading-3 {
+    font-size: 32px;
+}
+
+.heading-4 {
+    font-size: 28px;
+}
+
+.heading-5 {
+    font-size: 24px;
+}
+
+.heading-6 {
+    font-size: 20px;
+}
+
+.theme-color {
+    color: #122D37;
+}
+
+.red-color {
+    color: red;
+}
+
+.green-color {
+    color: green;
+}
+
+.theme-bgcolor {
+    background-color: #122D37;
+}
+
+.theme-hover-btn {
+    color: white;
+    background-color: #122D37;
+    border: 1px solid white;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.theme-hover-btn:hover {
+    color: #122D37;
+    background-color: white;
+    border-color: #122D37;
+}
+
+.theme-hover-btn-inverse {
+    color: #122D37;
+    background-color: white;
+    border: 1px solid #122D37;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.theme-hover-btn-inverse:hover {
+    color: white;
+    background-color: #122D37;
+    border-color: white;
+}
 /*****************  bootstrap customisation  **********/
 
 .form-control,
@@ -87,4 +154,118 @@ section {
         width: 90%;
         min-width: 100px;
     }
+}
+
+/*****************  homepage  **************************/
+
+#searchBarSection .form-control {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border: 2px solid #aaa;
+}
+
+#searchBarSection .form-control:focus {
+    border-color: #122d37;
+    box-shadow: none;
+}
+
+#productsSection {
+    padding: 30px 0;
+}
+
+.productCol {
+    padding: 2px;
+}
+
+.productContainer {
+    background-color: #122d3708;
+    padding: 10px;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.productContainer:hover {
+    background-color: #122d3710;
+}
+
+.productName {
+    font-size: 14px;
+    /* font-weight: 400; */
+    color: #122d37;
+     
+}
+
+.productImage {
+    width: 100%;
+    height: 180px;
+}
+
+.productPrice {
+    font-size: 25px;
+    color: black;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+#sortFilterSection {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    padding: 0px;
+    width: 100vw;
+    font-size: 20px;
+}
+
+#sortFilterSection .col-6 {
+    padding: 10px 0;
+    background-color: #ccc;
+}
+
+#sortFilterSection .col-6:hover {
+    background-color: #aaa;
+}
+
+
+
+/*****************  product detail  ********************/
+
+.product-detail-image {
+    border: 1px solid black;
+    width: 100%;
+    max-height: 500px;
+    margin-bottom: 10px;
+}
+
+.product-detail-image:hover {
+    box-shadow: 0 0 3px;
+}
+
+.fields-container {
+    width: 100%;
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.fields-container:hover {
+    box-shadow: 0 0 3px;
+}
+
+.product-detail-price {
+    font-size: 50px;
+}
+
+.product-detail-shortdesc {
+    font-size: 20px;
+}
+
+.seller-field {
+    font-size: 20px;
+}
+
+.seller-field span {
+    font-weight: 600;
 }
