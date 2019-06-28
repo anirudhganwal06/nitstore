@@ -42,6 +42,8 @@ exports.postSellProduct = (req, res, next) => {
     const shortdesc = req.body.shortdesc;
     const sellerName = req.session.username;
     const price = req.body.price;
+    const imageURL = req.file.url;
+    const imagePublicId = req.file.public_id;
     const mobile = req.body.mobile;
     const email = req.body.email;
     const description = req.body.description;
@@ -50,6 +52,8 @@ exports.postSellProduct = (req, res, next) => {
         sellerName: sellerName,
         sellerRollNo: rollNo,
         price: price,
+        imageURL: imageURL,
+        imagePublicId: imagePublicId,
         mobile: mobile,
         email: email,
         description: description
@@ -65,7 +69,6 @@ exports.postSellProduct = (req, res, next) => {
 };
 
 exports.getProductDetailPage = (req, res) => {
-    console.log('product details');
     const product_id = req.params.product_id;
     const rollNo = req.params.rollNo;
     Product.findOne({

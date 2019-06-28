@@ -34,7 +34,7 @@
 						<a href="/product/<%= product._id %>">
 						<% } %>
 							<div class="productContainer">
-								<img class="productImage" src="/images/dummyChair.jpg">
+								<img class="productImage" src="<%= product.imageURL %>">
 								<h1 class="productPrice">Rs. <%= product.price %></h1>
 								<h1 class="productName"><%= product.shortdesc %></h1>
 							</div>

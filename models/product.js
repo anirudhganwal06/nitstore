@@ -19,6 +19,14 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
+    imageURL: {
+        type: String,
+        required: true
+    },
+    imagePublicId: {
+        type: String,
+        required: true
+    },
     mobile: {
         type: String,
         required: true

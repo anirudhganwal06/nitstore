@@ -8,11 +8,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-6 ">
-                    <img class="product-detail-image" src="/images/dummyChair.jpg" >
-                    <input name="product_id" value="<%= product._id %>" hidden>
-                    <input name="rollNo" value="<%= rollNo %>" hidden>
-                    <button class="btn theme-hover-btn-inverse btn-block" onclick="notifySeller(this);">NOTIFY SELLER ABOUT ME</button>
-                    <p class="green-color text-center" name="notify_message"></p>
+                    <img class="product-detail-image" src="<%= product.imageURL %>" >
+                    <% if (isLoggedIn) { %>
+                        <input name="product_id" value="<%= product._id %>" hidden>
+                        <input name="rollNo" value="<%= rollNo %>" hidden>
+                        <button class="btn theme-hover-btn-inverse btn-block" onclick="notifySeller(this);">NOTIFY SELLER ABOUT ME</button>
+                        <p class="green-color text-center" name="notify_message"></p>
+                    <% } %>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="fields-container">

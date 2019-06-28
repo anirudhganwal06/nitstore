@@ -16,7 +16,6 @@ exports.getHomePage = (req, res, next) => {
 };
 
 exports.getProductDetailPage = (req, res) => {
-    console.log('product details');
     const product_id = req.params.product_id;
     Product.findOne({
             _id: product_id
