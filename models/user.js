@@ -28,7 +28,17 @@ const userSchema = new Schema({
         required: true
     },
     notifications: {
-        type: Array
+        type: Array,
+        required: true
+    },
+    numberOfNewNotifications: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    productsOfInterest: {
+        type: Array,
+        required: true
     }
 });
 

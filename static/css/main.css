@@ -269,3 +269,48 @@ section {
 .seller-field span {
     font-weight: 600;
 }
+
+/****************  notifications page  *****************/
+
+#notificationsSection .container {
+    max-width: 800px;
+}
+
+#notificationsSection .col-12 {
+    padding: 4px;
+    transition: 0.4s;
+}
+
+/* #notificationsSection .col-12:hover {
+    padding: 1px;
+} */
+
+#notificationsSection p {
+    color: black;
+    margin: 0;
+    padding: 0;
+    transition: 0.2s;
+}
+
+.notificationContainer {
+    padding: 15px;
+    background-color: white;
+    border: 1px solid rgba(18, 45, 55, 0.5);
+    color: black;
+    border-radius: 5px;
+    transition: 0.2s;
+}
+
+.notificationContainer:hover {
+    box-shadow: 0 0 11px -6px;
+    color: #122D37;
+    padding: 25px 15px;
+}
+
+.notificationDate {
+    font-size: 12px;
+}
+
+.notificationContainer:hover > p {
+    font-size: 20px;
+}

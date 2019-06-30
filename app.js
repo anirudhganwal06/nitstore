@@ -88,7 +88,7 @@ mongoose.connect(mongoURI, {
         useNewUrlParser: true
     })
     .then(() => {
-        app.listen(process.env.PORT || 2000, console.log('Server started...'));
+        app.listen(process.env.PORT || 3000, console.log('Server started...'));
     })
     .catch(err => {
         console.log(err);

@@ -21,7 +21,6 @@ exports.postLogin = (req, res) => {
                         if (passwordMatch) {
                             req.session.isLoggedIn = true;
                             req.session.rollNo = user.rollNo;
-                            req.session.username = user.name;
                             res.redirect('/' + user.rollNo);
                         } else {
                             req.flash('loginError', 'Incorrect Password!')
@@ -78,7 +77,7 @@ exports.postSignup = (req, res) => {
                     .then(user => {
                         user.save()
                             .then(result => {
-                                res.redirect('/');
+                                res.redirect('/login');
                             })
                             .catch(err => {
                                 console.log(err);

@@ -14,11 +14,18 @@
             <ul class="navbar-nav ml-auto">
                 <% if (isLoggedIn) { %>
                     <li class="nav-item">
+                        <a class="nav-link" title="<%= username %>" style="padding: 8px 20px; font-weight: 600" href="/"><%= username.split(' ')[0] %></a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" style="padding: 8px 20px; font-weight: 600"
                             href="/<%= rollNo %>/sell">Sell Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" title="<%= username %>" style="padding: 8px 20px; font-weight: 600" href="/"><%= username.split(' ')[0] %></a>
+                        <a class="nav-link" style="padding: 8px 20px; font-weight: 600" href="/<%= rollNo %>/notifications">Notifications 
+                            <% if (numberOfNewNotifications != 0) %>
+                                <span class="badge badge-success"><%= numberOfNewNotifications %></span>
+                            <%  %>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <form action="/<%= rollNo %>/logout" method="POST">

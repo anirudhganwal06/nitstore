@@ -1,0 +1,98 @@
+<%- include('../includes/start.ejs') %>
+
+</head>
+
+<body>
+
+    <%- include('../includes/navbar.ejs') %>
+
+    <section id="notificationsSection">
+        <div class="container">
+            <div class="row flex-column-reverse">
+
+                <% if (notifications.length == 0) { %>
+                    <h1 class="text-center">You have no notifications yet!</h1>
+                <% } else { %>
+                    <% for (let notification of notifications) { %>
+                        <%
+                            let timeAgo = notificationTime => {
+                                let currentTime = new Date();
+                                let timeDiff = (currentTime - notificationTime) / 1000;
+                                let yearsago = Math.floor(timeDiff / (365 * 24 * 3600));
+                                if (yearsago != 0) {
+                                    if (yearsago == 1) {
+                                        return 'More than ' + yearsago + ' year ago';
+                                    } else {
+                                        return 'More than ' + yearsago + ' years ago';
+                                    }
+                                } else {
+                                    let monthsago = Math.floor(timeDiff / (30 * 24 * 3600));
+                                    if (monthsago != 0) {
+                                        if (monthsago == 1) {
+                                            return 'More than ' + monthsago + ' month ago';
+                                        } else {
+                                            return 'More than ' + monthsago + ' months ago';
+                                        }
+                                    } else {
+                                        let daysago = Math.floor(timeDiff / (24 * 3600));
+                                        if (daysago != 0) {
+                                            if (daysago == 1) {
+                                                return daysago + ' day ago';
+                                            } else {
+                                                return daysago + ' days ago';
+                                            }
+                                        } else {
+                                            let hoursago = Math.floor(timeDiff / (3600));
+                                            if (hoursago != 0) {
+                                                if (hoursago == 1) {
+                                                    return hoursago + ' hour ago';
+                                                } else {
+                                                    return hoursago + ' hours ago';
+                                                }
+                                            } else {
+                                                let minutesago = Math.floor(timeDiff / 60);
+                                                if (minutesago != 0) {
+                                                    if (minutesago == 1) {
+                                                        return minutesago + ' minute ago';
+                                                    } else {
+                                                        return minutesago + ' minutes ago';
+                                                    }
+                                                } else {
+                                                    let secondsago = Math.floor(timeDiff);
+                                                    if (secondsago != 0) {
+                                                        if (secondsago == 1) {
+                                                            return secondsago + ' second ago';
+                                                        } else {
+                                                            return secondsago + ' seconds ago';
+                                                        }
+                                                    } else {
+                                                        return 'Just now';
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }; 
+                        %>
+                        <% let notificationTime = notification.notificationTime; %>
+                        <% let notificationTimeAgo = timeAgo(notificationTime); %>
+                        <% if (notification.type === 'interestedBuyer') { %>
+                            <div class="col-12">
+                                <a href="/<%= rollNo %>/user/<%= notification.buyerRollNo %>">
+                                    <div class="notificationContainer">
+                                        <i class="float-right notificationDate"><%= notificationTimeAgo %></i>
+                                        <p><b><%= notification.buyerName %></b> is interested in buying your product.</p>
+                                    </div>
+                                </a>
+                            </div>
+                        <% } %>
+                    <% } %>
+                <% } %>
+
+
+            </div>
+        </div>
+    </section>
+    
+    <%- include('../includes/end.ejs') %>
