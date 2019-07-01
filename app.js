@@ -24,16 +24,6 @@ const sessionStore = new mongoDBStore({
     collection: 'sessions'
 });
 
-// const imageStore = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, 'images');
-//     },
-//     filename: (req, file, cb) => {
-//         console.log(file);
-//         cb(null, uniqid() + '_' + file.originalname);
-//     }
-// });
-
 cloudinary.config({
     cloud_name: CLOUD_NAME,
     api_key: API_KEY,
@@ -50,8 +40,6 @@ const imageStore = cloudinaryStorage({
     //     crop: "limit"
     // }]
 });
-
-
 
 app.set('views', 'views');
 app.set('view engine', 'ejs');

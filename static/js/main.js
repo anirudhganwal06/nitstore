@@ -1,3 +1,5 @@
+/*************************  comparing passwords in signup form  **********************************/
+
 const comparePasswords = () => {
     let password = document.getElementById('password').value;
     let confirmPassword = document.getElementById('confirmPassword').value;
@@ -23,12 +25,34 @@ const comparePasswords = () => {
     }
 };
 
+
+/******************  notify seller that a somebody is interested in his/her product ***************/
+
 let notifySeller = btn => {
     const product_id = btn.parentNode.querySelector('[name = product_id]').value;
     const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
     fetch('/' + rollNo + '/product/' + product_id + '/notify-seller', {
         method: 'DELETE'
     })
+        .then(result => {
+            return result.json();
+        })
+        .then(data => {
+            btn.parentNode.querySelector('[name = notify_message]').innerHTML = data.message;
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+/**************************************  delete a product ******************************************/
+
+let deleteProduct = btn => {
+    const product_id = btn.parentNode.querySelector('[name = product_id]').value;
+    const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
+    fetch('/' + rollNo + '/product/' + product_id + '/delete', {
+            method: 'DELETE'
+        })
         .then(result => {
             return result.json();
         })

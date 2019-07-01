@@ -7,34 +7,34 @@
     <section id="sellProductFormSection">
         <div id="sellProductFormContainer">
             <h1 class="text-center mb-3">SELL PRODUCT</h1>
-            <form action="/<%= rollNo %>/sell" method="POST" enctype="multipart/form-data">
+            <form action="<% if (isEditing) { %>/<%= rollNo %>/product/<%= product._id %>/edit<% } else { %>/<%= rollNo %>/sell<% } %>" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-12 col-sm-6 form-group">
                         <label for="shortdesc">Key Information</label>
-                        <input name="shortdesc" class="form-control" type="text" placeholder="eg: Brand, Model, Age" required>
+                        <input name="shortdesc" <% if (isEditing) { %> value="<%= product.shortdesc %>" <% } %> class="form-control" type="text" placeholder="eg: Brand, Model, Age" required>
                     </div>
                     <div class="col-12 col-sm-6 form-group">
                         <label for="price">Product Price</label>
-                        <input name="price" class="form-control" type="text" required>
+                        <input name="price" <% if (isEditing) { %> value="<%= product.price %>" <% } %> class="form-control" type="text" required>
                     </div>
                     <div class="col-12 form-group">
                         <label for="image">Product Image</label>
-                        <input name="image" class="form-control" type="file" required>
+                        <input name="image" class="form-control" type="file" <% if (!isEditing) { %>required<% } %>>
                     </div>
                     <div class="col-12 col-sm-6 form-group">
                         <label for="mobile">Contact Mobile Number</label>
-                        <input name="mobile" class="form-control" type="text" value="<%= mobile %>" required>
+                        <input name="mobile" <% if (isEditing) { %> value="<%= product.mobile %>" <% } %> class="form-control" type="text" value="<%= mobile %>" required>
                     </div>
                     <div class="col-12 col-sm-6 form-group">
                         <label for="email">Contact Email</label>
-                        <input name="email" class="form-control" type="text" value="<%= email %>" required>
+                        <input name="email" <% if (isEditing) { %> value="<%= product.email %>" <% } %> class="form-control" type="text" value="<%= email %>" required>
                     </div>
                     <div class="col-12 form-group">
                         <label for="description">Product Description</label>
-                        <textarea name="description" class="form-control" type="text" rows="3" required></textarea>
+                        <textarea name="description" class="form-control" type="text" rows="3" required><% if (isEditing) { %><%= product.description %><% } %></textarea>
                     </div>
                     <div class="col-12 form-group mt-3 ">
-                        <button type="submit" class="btn btn-block btn-primary">SET FOR SALE</button>
+                        <button type="submit" class="btn btn-block btn-primary"><% if (isEditing) { %>UPDATE PRODUCT<% } else { %>SET FOR SALE<% } %></button>
                     </div>
                 </div>
             </form>

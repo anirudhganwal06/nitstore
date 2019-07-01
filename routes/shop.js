@@ -19,4 +19,12 @@ router.get('/:rollNo/user/:anotherUserRollNo', isAuth, shopController.getAnother
 
 router.delete('/:rollNo/product/:product_id/notify-seller', isAuth, shopController.deleteNotifySeller);
 
+router.get('/:rollNo/products-for-sale', isAuth, shopController.getProductsForSale);
+
+router.get('/:rollNo/product/:product_id/edit', isAuth, shopController.getEditProduct);
+
+router.get('/:rollNo/product/:product_id/delete', isAuth, shopController.getDeleteProduct);
+
+// router.delete('/:rollNo/product/:product_id/delete', isAuth, shopController.deleteDeleteProduct);
+
 module.exports = router;

@@ -10,10 +10,25 @@
                 <div class="col-12 col-md-6 ">
                     <img class="product-detail-image" src="<%= product.imageURL %>" >
                     <% if (isLoggedIn) { %>
-                        <input name="product_id" value="<%= product._id %>" hidden>
-                        <input name="rollNo" value="<%= rollNo %>" hidden>
-                        <button class="btn theme-hover-btn-inverse btn-block" onclick="notifySeller(this);">NOTIFY SELLER ABOUT ME</button>
-                        <p class="green-color text-center" name="notify_message"></p>
+                        <% if(rollNo !== seller.rollNo) { %>
+                            <input name="product_id" value="<%= product._id %>" hidden>
+                            <input name="rollNo" value="<%= rollNo %>" hidden>
+                            <button class="btn theme-hover-btn-inverse btn-block" onclick="notifySeller(this);">NOTIFY SELLER ABOUT ME</button>
+                            <p class="green-color text-center" name="notify_message"></p>
+                        <% } else { %>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a href="/<%= rollNo %>/product/<%= product._id %>/edit">
+                                        <button class="btn btn-block theme-hover-btn-inverse">EDIT</button>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="/<%= rollNo %>/product/<%= product._id %>/delete">
+                                        <button class="btn btn-block theme-hover-btn-inverse">DELETE</button>
+                                    </a>
+                                </div>
+                            </div>
+                        <% } %>
                     <% } %>
                 </div>
                 <div class="col-12 col-md-6">
@@ -31,8 +46,8 @@
                         <h1 class="heading-3">Seller Description</h1>
                         <h1 class="seller-field"><span>Name:</span> <%= seller.name %></h1>
                         <h1 class="seller-field"><span>Roll Number:</span> <%= seller.rollNo %></h1>
-                        <h1 class="seller-field"><span>Mobile:</span> <%= seller.mobile %></h1>
-                        <h1 class="seller-field"><span>Email:</span> <%= seller.email %></h1>
+                        <h1 class="seller-field"><span>Mobile:</span> <%= product.mobile %></h1>
+                        <h1 class="seller-field"><span>Email:</span> <%= product.email %></h1>
                     </div>
                         
                 </div>

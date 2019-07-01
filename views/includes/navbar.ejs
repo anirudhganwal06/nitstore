@@ -13,8 +13,17 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar" style="float: right">
             <ul class="navbar-nav ml-auto">
                 <% if (isLoggedIn) { %>
-                    <li class="nav-item">
-                        <a class="nav-link" title="<%= username %>" style="padding: 8px 20px; font-weight: 600" href="/"><%= username.split(' ')[0] %></a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" style="padding: 8px 20px; font-weight: 600; cursor: pointer;" id="navbarUsernameDropdown" role="button" data-toggle="dropdown"
+                            aria-haspopup="true"title="<%= username %>" aria-expanded="false">
+                            <%= username.split(' ')[0] %>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarUsernameDropdown">
+                            <a class="dropdown-item" href="/<%= rollNo %>/my-account">My Account</a>
+                            <a class="dropdown-item" href="/<%= rollNo %>/products-for-sale">Products For Sale</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Coming Soon...</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" style="padding: 8px 20px; font-weight: 600"
@@ -22,9 +31,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" style="padding: 8px 20px; font-weight: 600" href="/<%= rollNo %>/notifications">Notifications 
-                            <% if (numberOfNewNotifications != 0) %>
+                            <% if (numberOfNewNotifications !== 0) { %>
                                 <span class="badge badge-success"><%= numberOfNewNotifications %></span>
-                            <%  %>
+                            <% } %>
                         </a>
                     </li>
                     <li class="nav-item">

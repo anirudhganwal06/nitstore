@@ -3,10 +3,17 @@ const Product = require('../models/product');
 
 exports.getUserHomePage = (req, res, next) => {
     let rollNo = req.params.rollNo;
+    console.log(typeof (rollNo));
     User.findOne({
         rollNo: rollNo
     }).then(user => {
-        Product.find()
+        Product.find({
+                sellerRollNo: {
+                    $not: {
+                        $regex: rollNo
+                    }
+                }
+            })
             .then(products => {
                 res.render('main/home', {
                     pagetitle: 'NIT Store',
@@ -39,6 +46,7 @@ exports.getSellProduct = (req, res, next) => {
                 numberOfNewNotifications: user.numberOfNewNotifications,
                 mobile: user.mobile,
                 email: user.email,
+                isEditing: false
             });
         })
         .catch(err => {
@@ -102,7 +110,7 @@ exports.getNotifications = (req, res) => {
                 username: user.name,
                 numberOfNewNotifications: user.numberOfNewNotifications,
                 notifications: user.notifications,
-                
+
             });
         }
     });
@@ -156,7 +164,7 @@ exports.deleteNotifySeller = (req, res) => {
                 if (prod_id === product_id) {
                     flag = 1;
                     res.json({
-                        message: "Seller is already notified about your presence!"
+                        message: "Seller is already notified about your interest!"
                     });
                     break;
                 }
@@ -182,14 +190,14 @@ exports.deleteNotifySeller = (req, res) => {
                                     numberOfNewNotifications: 1
                                 }
                             })
-                            .then(() => {
+                            .then(result => {
                                 User.updateOne({
                                         rollNo: rollNo
                                     }, {
                                         $push: {
                                             productsOfInterest: product_id
                                         }
-                                    }).then(user => {
+                                    }).then(result => {
                                         res.json({
                                             message: 'Seller is notified about your interest!'
                                         });
@@ -238,4 +246,123 @@ exports.getAnotherUserProfile = (req, res) => {
     }).catch(err => {
         console.log(err);
     });
+};
+
+exports.getProductsForSale = (req, res, next) => {
+    let rollNo = req.params.rollNo;
+    console.log(typeof (rollNo));
+    User.findOne({
+        rollNo: rollNo
+    }).then(user => {
+        Product.find({
+                sellerRollNo: rollNo
+            })
+            .then(products => {
+                res.render('shop/productsForSale', {
+                    pagetitle: 'NIT Store',
+                    isLoggedIn: true,
+                    rollNo: rollNo,
+                    username: user.name,
+                    numberOfNewNotifications: user.numberOfNewNotifications,
+                    products: products
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }).catch(err => {
+        console.log(err);
+    });
+};
+
+exports.getEditProduct = (req, res) => {
+    const rollNo = req.params.rollNo;
+    const product_id = req.params.product_id;
+    User.findOne({
+            rollNo: rollNo
+        })
+        .then(user => {
+            Product.findOne({
+                    _id: product_id
+                })
+                .then(product => {
+                    res.render('shop/sellProduct', {
+                        pagetitle: 'Sell Product',
+                        isLoggedIn: true,
+                        rollNo: req.params.rollNo,
+                        username: user.name,
+                        numberOfNewNotifications: user.numberOfNewNotifications,
+                        mobile: user.mobile,
+                        email: user.email,
+                        isEditing: true,
+                        product: product
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+exports.postEditProduct = (req, res) => {
+    const rollNo = req.params.rollNo;
+    const product_id = req.params.product_id;
+    const shortdesc = req.body.shortdesc;
+    const price = req.body.price;
+    const mobile = req.body.mobile;
+    const email = req.body.email;
+    const description = req.body.description;
+    if (req.file) {
+        const imageURL = req.file.url;
+        const imagePublicId = req.file.public_id;
+        Product.updateOne({
+                _id: product_id
+            }, {
+                shortdesc: shortdesc,
+                price: price,
+                mobile: mobile,
+                email: email,
+                description: description,
+                imageURL: imageURL,
+                imagePublicId: imagePublicId
+            })
+            .then(result => {
+                res.redirect('/' + rollNo + '/product/' + product_id);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
+        Product.updateOne({
+                _id: product_id
+            }, {
+                shortdesc: shortdesc,
+                price: price,
+                mobile: mobile,
+                email: email,
+                description: description
+            })
+            .then(result => {
+                res.redirect('/' + rollNo + '/product/' + product_id);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+};
+
+exports.getDeleteProduct = (req, res) => {
+    const rollNo = req.params.rollNo;
+    const product_id = req.params.product_id;
+    Product.findByIdAndDelete(product_id)
+        .then(result => {
+            res.redirect('/' + rollNo + '/products-for-sale');
+        })
+        .catch(err => {
+            console.log(err);
+        });
 };
