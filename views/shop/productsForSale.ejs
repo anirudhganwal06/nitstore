@@ -6,56 +6,45 @@
 
     <%- include('../includes/navbar.ejs') %>
 
-    <section id="searchBarSection">
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <h1>Products</h1>
-                </div>
-                <div class="col-6">
-                    <form>
-                        <div class="form-group">
-                            <input class="form-control" type="text" placeholder="Search...">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+    <% if (products.length === 0) { %>
 
     <section id="productsSection">
         <div class="container text-center">
-            <% if (products.length === 0) { %>
-                <h1>You Have Not Set Any Product On Sale!</h1><br>
-                <a href="/<%= rollNo %>/sell">
-                    <button class="btn theme-hover-btn-inverse">Sell A Product</button>
-                </a>
-            <% } else { %>
-                <div class="row justify-content-center">
-                    <% for (let product of products) { %>
-                        <div class="col-9 col-sm-6 col-md-4 col-lg-3 productCol">
-                            <a href="/<%= rollNo %>/product/<%= product._id %>">
-                                    <div class="productContainer">
-                                        <img class="productImage" src="<%= product.imageURL %>">
-                                        <h1 class="productPrice">Rs. <%= product.price %></h1>
-                                        <h1 class="productName"><%= product.shortdesc %></h1>
-                                    </div>
-                                </a>
-                        </div>
-                    <% } %>
-                </div>
-            <% } %>
+            <h1>You Have Not Set Any Product On Sale!</h1><br>
+            <a href="/<%= rollNo %>/sell">
+                <button class="btn theme-hover-btn-inverse">Sell A Product</button>
+            </a>
         </div>
     </section>
+    
+    <% } else { %>
 
-    <section id="sortFilterSection">
-        <div class="row">
-            <div class="col-6">
-                Filter
-            </div>
-            <div class="col-6">
-                Sort
+    <%- include('../includes/productSearchbar.ejs') %>
+    <section id="productsSection">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <% for (let product of products) { %>
+                <div class="col-9 col-sm-6 col-md-4 col-lg-3 productCol">
+                    <a href="/<%= rollNo %>/product/<%= product._id %>">
+                        <div class="productContainer">
+                            <img class="productImage" src="<%= product.imageURL %>">
+                            <h1 class="productPrice">Rs. <%= product.price %></h1>
+                            <h1 class="productName"><%= product.shortdesc %></h1>
+                            <button class="btn theme-hover-btn-inverse" onclick="location.href='/<%= rollNo %>/product/<%= product._id %>/edit'; return false;">EDIT</button>
+                            <input name="product_id" value="<%= product._id %>" hidden>
+                            <input name="imagePublicId" value="<%= product.imagePublicId %>" hidden>
+                            <input name="rollNo" value="<%= rollNo %>" hidden>
+                            <button class="btn theme-hover-btn-inverse" onclick="deleteProduct(this); return false;">DELETE</button>
+                        </div>
+                    </a>
+                </div>
+                <% } %>
             </div>
         </div>
     </section>
+    <%- include('../includes/sortFilter.ejs') %>
+
+    <% } %>
+
+
     <%- include('../includes/end.ejs') %>

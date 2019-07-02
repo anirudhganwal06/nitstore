@@ -23,8 +23,10 @@ router.get('/:rollNo/products-for-sale', isAuth, shopController.getProductsForSa
 
 router.get('/:rollNo/product/:product_id/edit', isAuth, shopController.getEditProduct);
 
-router.get('/:rollNo/product/:product_id/delete', isAuth, shopController.getDeleteProduct);
+router.post('/:rollNo/product/:product_id/edit', isAuth, shopController.postEditProduct);
 
-// router.delete('/:rollNo/product/:product_id/delete', isAuth, shopController.deleteDeleteProduct);
+router.get('/:rollNo/product/:product_id/delete/:imagePublicId', isAuth, shopController.getDeleteProduct);
+
+router.delete('/:rollNo/product/:product_id/delete/:imagePublicId', isAuth, shopController.deleteDeleteProduct);
 
 module.exports = router;

@@ -6,22 +6,7 @@
 	
 	<%- include('../includes/navbar.ejs') %>
 
-	<section id="searchBarSection">
-		<div class="container">
-			<div class="row">
-				<div class="col-6">
-					<h1>Products</h1>
-				</div>
-				<div class="col-6">
-					<form>
-						<div class="form-group">
-							<input class="form-control" type="text" placeholder="Search...">
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</section>
+	<%- include('../includes/productSearchbar.ejs') %>
 
 	<section id="productsSection">
 		<div class="container">
@@ -45,14 +30,6 @@
 		</div>
 	</section>
 
-	<section id="sortFilterSection">
-		<div class="row">
-			<div class="col-6">
-				Filter
-			</div>
-			<div class="col-6">
-				Sort
-			</div>
-		</div>
-	</section>
+	<%- include('../includes/sortFilter.ejs') %>
+
     <%- include('../includes/end.ejs') %>

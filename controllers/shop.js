@@ -1,9 +1,10 @@
+const cloudinary = require('cloudinary');
+
 const User = require('../models/user');
 const Product = require('../models/product');
 
 exports.getUserHomePage = (req, res, next) => {
     let rollNo = req.params.rollNo;
-    console.log(typeof (rollNo));
     User.findOne({
         rollNo: rollNo
     }).then(user => {
@@ -81,7 +82,7 @@ exports.postSellProduct = (req, res, next) => {
         });
         product.save()
             .then(result => {
-                res.redirect('/' + rollNo);
+                res.redirect('/' + rollNo + '/products-for-sale');
             })
             .catch(err => {
                 console.log(err);
@@ -250,7 +251,6 @@ exports.getAnotherUserProfile = (req, res) => {
 
 exports.getProductsForSale = (req, res, next) => {
     let rollNo = req.params.rollNo;
-    console.log(typeof (rollNo));
     User.findOne({
         rollNo: rollNo
     }).then(user => {
@@ -318,23 +318,31 @@ exports.postEditProduct = (req, res) => {
     if (req.file) {
         const imageURL = req.file.url;
         const imagePublicId = req.file.public_id;
-        Product.updateOne({
-                _id: product_id
-            }, {
-                shortdesc: shortdesc,
-                price: price,
-                mobile: mobile,
-                email: email,
-                description: description,
-                imageURL: imageURL,
-                imagePublicId: imagePublicId
-            })
-            .then(result => {
-                res.redirect('/' + rollNo + '/product/' + product_id);
-            })
-            .catch(err => {
+        Product.findOneAndUpdate({
+            _id: product_id
+        }, {
+            shortdesc: shortdesc,
+            price: price,
+            mobile: mobile,
+            email: email,
+            description: description,
+            imageURL: imageURL,
+            imagePublicId: imagePublicId
+        }, {
+            new: false
+        }, (err, product) => {
+            if (err) {
                 console.log(err);
-            });
+            } else {
+                cloudinary.uploader.destroy(product.imagePublicId)
+                    .then(cloudinaryResult => {
+                        res.redirect('/' + rollNo + '/product/' + product_id);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
+        });
     } else {
         Product.updateOne({
                 _id: product_id
@@ -358,9 +366,36 @@ exports.postEditProduct = (req, res) => {
 exports.getDeleteProduct = (req, res) => {
     const rollNo = req.params.rollNo;
     const product_id = req.params.product_id;
+    const imagePublicId = req.params.imagePublicId;
     Product.findByIdAndDelete(product_id)
         .then(result => {
-            res.redirect('/' + rollNo + '/products-for-sale');
+            cloudinary.uploader.destroy('images/' + imagePublicId)
+                .then(cloudinaryResult => {
+                    res.redirect('/' + rollNo + '/products-for-sale');
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+exports.deleteDeleteProduct = (req, res) => {
+    const product_id = req.params.product_id;
+    const imagePublicId = req.params.imagePublicId;
+    Product.findByIdAndDelete(product_id)
+        .then(result => {
+            cloudinary.uploader.destroy('images/' + imagePublicId)
+                .then(cloudinaryResult => {
+                    res.json({
+                        message: 'Product Deleted Successfully!'
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         })
         .catch(err => {
             console.log(err);

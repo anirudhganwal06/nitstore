@@ -93,6 +93,10 @@ section {
     font-size: 16px;
 }
 
+.navbar .dropdown-item:active {
+    background-color: #122D37;
+}
+
 /**********************  login  ***********************/
 
 #loginFormContainer {
@@ -164,6 +168,13 @@ section {
     border: 2px solid #aaa;
 }
 
+@media only screen and (max-width: 575.5px) {
+    #searchBarSection .form-control {
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+}
+
 #searchBarSection .form-control:focus {
     border-color: #122d37;
     box-shadow: none;
@@ -183,10 +194,15 @@ section {
     text-align: center;
     overflow: hidden;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .productContainer:hover {
     background-color: #122d3710;
+}
+
+.productContainer button {
+    z-index: 1000;
 }
 
 .productName {
@@ -214,12 +230,12 @@ section {
     position: fixed;
     bottom: 0;
     padding: 0px;
-    width: 100vw;
+    width: 100%;
     font-size: 20px;
 }
 
 #sortFilterSection .col-6 {
-    padding: 10px 0;
+    padding: 5px 0;
     background-color: #ccc;
 }
 

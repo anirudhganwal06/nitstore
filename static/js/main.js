@@ -1,3 +1,7 @@
+/************************************  common  ***************************************************/
+
+
+
 /*************************  comparing passwords in signup form  **********************************/
 
 const comparePasswords = () => {
@@ -50,14 +54,15 @@ let notifySeller = btn => {
 let deleteProduct = btn => {
     const product_id = btn.parentNode.querySelector('[name = product_id]').value;
     const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
-    fetch('/' + rollNo + '/product/' + product_id + '/delete', {
+    const imagePublicId = btn.parentNode.querySelector('[name = imagePublicId]').value;
+    fetch('/' + rollNo + '/product/' + product_id + '/delete/' + imagePublicId.split('/')[1], {
             method: 'DELETE'
         })
         .then(result => {
             return result.json();
         })
         .then(data => {
-            btn.parentNode.querySelector('[name = notify_message]').innerHTML = data.message;
+            btn.parentNode.parentNode.parentNode.parentNode.removeChild(btn.parentNode.parentNode.parentNode);
         })
         .catch(err => {
             console.log(err);
