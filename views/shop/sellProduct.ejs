@@ -34,6 +34,7 @@
                         <textarea name="description" class="form-control" type="text" rows="3" required><% if (isEditing) { %><%= product.description %><% } %></textarea>
                     </div>
                     <div class="col-12 form-group mt-3 ">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit" class="btn btn-block btn-primary"><% if (isEditing) { %>UPDATE PRODUCT<% } else { %>SET FOR SALE<% } %></button>
                     </div>
                 </div>

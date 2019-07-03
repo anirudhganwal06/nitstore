@@ -1,7 +1,15 @@
 const cloudinary = require('cloudinary');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
 const Product = require('../models/product');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: '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'
+    }
+}));
 
 exports.getUserHomePage = (req, res, next) => {
     let rollNo = req.params.rollNo;
@@ -22,7 +30,8 @@ exports.getUserHomePage = (req, res, next) => {
                     rollNo: rollNo,
                     username: user.name,
                     numberOfNewNotifications: user.numberOfNewNotifications,
-                    products: products
+                    products: products,
+                    csrfToken: req.csrfToken()
                 });
             })
             .catch(err => {
@@ -47,7 +56,8 @@ exports.getSellProduct = (req, res, next) => {
                 numberOfNewNotifications: user.numberOfNewNotifications,
                 mobile: user.mobile,
                 email: user.email,
-                isEditing: false
+                isEditing: false,
+                csrfToken: req.csrfToken()
             });
         })
         .catch(err => {
@@ -111,7 +121,7 @@ exports.getNotifications = (req, res) => {
                 username: user.name,
                 numberOfNewNotifications: user.numberOfNewNotifications,
                 notifications: user.notifications,
-
+                csrfToken: req.csrfToken()
             });
         }
     });
@@ -138,7 +148,8 @@ exports.getProductDetailPage = (req, res) => {
                             username: user.name,
                             numberOfNewNotifications: user.numberOfNewNotifications,
                             product: product,
-                            seller: seller
+                            seller: seller,
+                            csrfToken: req.csrfToken()
                         });
                     })
                     .catch(err => {
@@ -202,6 +213,12 @@ exports.deleteNotifySeller = (req, res) => {
                                         res.json({
                                             message: 'Seller is notified about your interest!'
                                         });
+                                        return transporter.sendMail({
+                                            to: product.email,
+                                            from: 'nistore@nitkkr.com',
+                                            subject: 'User Interested In Your Product!',
+                                            html: `<h1>Somebody Checked your Product on Sale</h1><br><p><a href='nitstore.herokuapp.com/${product.sellerRollNo}/user/${rollNo}'>${user.name}</a> is interested in buying your product and wants to reach you!</p>`
+                                        });
                                     })
                                     .catch(err => {
                                         console.log(err);
@@ -238,7 +255,8 @@ exports.getAnotherUserProfile = (req, res) => {
                     rollNo: rollNo,
                     username: user.name,
                     numberOfNewNotifications: user.numberOfNewNotifications,
-                    anotheruser: anotheruser
+                    anotheruser: anotheruser,
+                    csrfToken: req.csrfToken()
                 });
             })
             .catch(err => {
@@ -264,7 +282,8 @@ exports.getProductsForSale = (req, res, next) => {
                     rollNo: rollNo,
                     username: user.name,
                     numberOfNewNotifications: user.numberOfNewNotifications,
-                    products: products
+                    products: products,
+                    csrfToken: req.csrfToken()
                 });
             })
             .catch(err => {
@@ -295,7 +314,8 @@ exports.getEditProduct = (req, res) => {
                         mobile: user.mobile,
                         email: user.email,
                         isEditing: true,
-                        product: product
+                        product: product,
+                        csrfToken: req.csrfToken()
                     });
                 })
                 .catch(err => {

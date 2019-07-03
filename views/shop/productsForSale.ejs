@@ -34,6 +34,7 @@
                             <input name="product_id" value="<%= product._id %>" hidden>
                             <input name="imagePublicId" value="<%= product.imagePublicId %>" hidden>
                             <input name="rollNo" value="<%= rollNo %>" hidden>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">                            
                             <button class="btn theme-hover-btn-inverse" onclick="deleteProduct(this); return false;">DELETE</button>
                         </div>
                     </a>

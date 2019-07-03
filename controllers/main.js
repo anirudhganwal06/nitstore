@@ -29,7 +29,8 @@ exports.getProductDetailPage = (req, res) => {
                         pagetitle: 'Product Details',
                         isLoggedIn: false,
                         product: product,
-                        seller: seller
+                        seller: seller,
+                        csrfToken: req.csrfToken()
                     });
                 })
                 .catch(err => {

@@ -35,9 +35,13 @@ const comparePasswords = () => {
 let notifySeller = btn => {
     const product_id = btn.parentNode.querySelector('[name = product_id]').value;
     const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
+    const csrf = btn.parentNode.querySelector('[name = _csrf]').value;
     fetch('/' + rollNo + '/product/' + product_id + '/notify-seller', {
-        method: 'DELETE'
-    })
+            method: 'DELETE',
+            headers: {
+                'csrf-token': csrf
+            }
+        })
         .then(result => {
             return result.json();
         })
@@ -55,8 +59,12 @@ let deleteProduct = btn => {
     const product_id = btn.parentNode.querySelector('[name = product_id]').value;
     const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
     const imagePublicId = btn.parentNode.querySelector('[name = imagePublicId]').value;
+    const csrf = btn.parentNode.querySelector('[name = _csrf]').value;
     fetch('/' + rollNo + '/product/' + product_id + '/delete/' + imagePublicId.split('/')[1], {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'csrf-token': csrf
+            }
         })
         .then(result => {
             return result.json();

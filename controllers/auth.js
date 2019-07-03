@@ -1,12 +1,21 @@
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
 const User = require('../models/user');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: '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'
+    }
+}));
 
 exports.getLogin = (req, res) => {
     res.render('auth/login', {
         pagetitle: 'Login',
         isLoggedIn: false,
-        loginError: req.flash('loginError')
+        loginError: req.flash('loginError'),
+        csrfToken: req.csrfToken()
     });
 };
 
@@ -44,7 +53,8 @@ exports.getSignup = (req, res) => {
     res.render('auth/signup', {
         pagetitle: 'Sign Up',
         isLoggedIn: false,
-        signupError: req.flash('signupError')
+        signupError: req.flash('signupError'),
+        csrfToken: req.csrfToken()
     });
 };
 
@@ -78,6 +88,12 @@ exports.postSignup = (req, res) => {
                         user.save()
                             .then(result => {
                                 res.redirect('/login');
+                                return transporter.sendMail({
+                                    to: email,
+                                    from: 'nitstore@nitkkr.com',
+                                    subject: 'Signup Succeeded!',
+                                    html: '<h1>Your account have been created successfully!</h1><br><p>Thank You for using NITStore :)</p>'
+                                });
                             })
                             .catch(err => {
                                 console.log(err);

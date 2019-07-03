@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const mongoDBStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
 const cloudinary = require('cloudinary');
@@ -18,11 +19,11 @@ const API_SECRET = 'x4rqy2h6dMIw_KAeE_hrBSk-gNI';
 
 
 const app = express();
-
 const sessionStore = new mongoDBStore({
     uri: mongoURI,
     collection: 'sessions'
 });
+const csrfProtection = csrf();
 
 cloudinary.config({
     cloud_name: CLOUD_NAME,
@@ -56,6 +57,7 @@ app.use(session({
     saveUninitialized: false,
     store: sessionStore
 }));
+app.use(csrfProtection);
 app.use(flash());
 
 const mainRoutes = require('./routes/main');
@@ -76,7 +78,7 @@ mongoose.connect(mongoURI, {
         useNewUrlParser: true
     })
     .then(() => {
-        app.listen(process.env.PORT || 3000, console.log('Server started...'));
+        app.listen(process.env.PORT || 2001, console.log('Server started...'));
     })
     .catch(err => {
         console.log(err);
