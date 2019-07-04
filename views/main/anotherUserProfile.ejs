@@ -16,6 +16,38 @@
             <h3><b>Email :</b> <%= anotheruser.email %></h3>
             <h3><b>Mobile Number :</b> <%= anotheruser.mobile %></h3>
         </div>
-    </section>        
+    </section> 
+    
+    <section class="productsOfInterestSection text-center">
+        <div class="container">
+			<div class="row justify-content-center">
+                <% let flag = 0; %>
+                <% for (let product of products) { %>
+                    <% for (let iProduct of anotheruser.productsOfInterest) { %>
+                        <% if (product._id == iProduct) { %>
+                            <% if (flag === 0) { %>
+                                <div class="col-12">
+                                    <h1>Products Of Interest</h1>
+                                </div>
+                            <% } %>
+                            <% flag = 1; %>
+                            <div class="col-9 col-sm-6 col-md-4 col-lg-3 productCol">
+                                <a href="/<%= rollNo %>/product/<%= product._id %>">
+                                    <div class="productContainer">
+                                        <img class="productImage" src="<%= product.imageURL %>">
+                                        <h1 class="productPrice">Rs. <%= product.price %></h1>
+                                        <h1 class="productName"><%= product.shortdesc %></h1>
+                                    </div>
+                                </a>
+                            </div>
+                        <% } %>
+                    <% } %>
+                <% } %>
+                <% if (flag === 0) { %>
+                    <h5 class="text-center text-danger">Either this user is not interested in your products or you have deleted a product that he was interested in!</h5>
+                <% } %>
+			</div>
+        </div>
+    </section>
 
     <%- include('../includes/end.ejs') %>

@@ -6,30 +6,38 @@
 	
 	<%- include('../includes/navbar.ejs') %>
 
-	<%- include('../includes/productSearchbar.ejs') %>
+	<% if (products.length === 0) { %>
+		<section>
+			<h1 class="text-center">No products!</h1>
+		</section>
+	<% } else { %>
 
-	<section id="productsSection">
-		<div class="container">
-			<div class="row justify-content-center">
-				<% for (let product of products) { %>
-					<div class="col-9 col-sm-6 col-md-4 col-lg-3 productCol">
-						<% if(isLoggedIn) { %>
-						<a href="/<%= rollNo %>/product/<%= product._id %>">
-						<% } else { %>		
-						<a href="/product/<%= product._id %>">
-						<% } %>
-							<div class="productContainer">
-								<img class="productImage" src="<%= product.imageURL %>">
-								<h1 class="productPrice">Rs. <%= product.price %></h1>
-								<h1 class="productName"><%= product.shortdesc %></h1>
-							</div>
-						</a>
-					</div>
-				<% } %>
+		<%- include('../includes/productSearchbar.ejs') %>
+
+		<section id="productsSection">
+			<div class="container">
+				<div class="row justify-content-center">
+					<% for (let product of products) { %>
+						<div class="col-9 col-sm-6 col-md-4 col-lg-3 productCol">
+							<% if(isLoggedIn) { %>
+							<a href="/<%= rollNo %>/product/<%= product._id %>">
+							<% } else { %>		
+							<a href="/product/<%= product._id %>">
+							<% } %>
+								<div class="productContainer">
+									<img class="productImage" src="<%= product.imageURL %>">
+									<h1 class="productPrice">Rs. <%= product.price %></h1>
+									<h1 class="productName"><%= product.shortdesc %></h1>
+								</div>
+							</a>
+						</div>
+					<% } %>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<%- include('../includes/sortFilter.ejs') %>
+		<%- include('../includes/sortFilter.ejs') %>
+
+	<% } %>
 
     <%- include('../includes/end.ejs') %>

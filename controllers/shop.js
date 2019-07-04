@@ -7,8 +7,8 @@ const Product = require('../models/product');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
-        api_key: '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'
-    }
+        api_key: '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'
+    } 
 }));
 
 exports.getUserHomePage = (req, res, next) => {
@@ -249,15 +249,24 @@ exports.getAnotherUserProfile = (req, res) => {
                 rollNo: anotherUserRollNo
             })
             .then(anotheruser => {
-                res.render('main/anotherUserProfile', {
-                    pagetitle: 'Profile | ' + anotheruser.name,
-                    isLoggedIn: true,
-                    rollNo: rollNo,
-                    username: user.name,
-                    numberOfNewNotifications: user.numberOfNewNotifications,
-                    anotheruser: anotheruser,
-                    csrfToken: req.csrfToken()
-                });
+                Product.find({
+                    sellerRollNo: rollNo
+                })
+                    .then(products => {
+                        res.render('main/anotherUserProfile', {
+                            pagetitle: 'Profile | ' + anotheruser.name,
+                            isLoggedIn: true,
+                            rollNo: rollNo,
+                            username: user.name,
+                            numberOfNewNotifications: user.numberOfNewNotifications,
+                            anotheruser: anotheruser,
+                            products: products,
+                            csrfToken: req.csrfToken()
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             })
             .catch(err => {
                 console.log(err);
