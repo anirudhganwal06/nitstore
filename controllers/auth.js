@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport(sendgridTransport({
     }
 }));
 
-exports.getLogin = (req, res) => {
+exports.getLogin = (req, res, next) => {
     res.render('auth/login', {
         pagetitle: 'Login',
         isLoggedIn: false,
@@ -19,37 +19,35 @@ exports.getLogin = (req, res) => {
     });
 };
 
-exports.postLogin = (req, res) => {
+exports.postLogin = async (req, res, next) => {
     const rollNo = req.body.rollNo;
     const password = req.body.password;
-    User.findOne({ rollNo: rollNo })
-        .then(user => {
-            if (user) {
-                bcrypt.compare(password, user.password)
-                    .then(passwordMatch => {
-                        if (passwordMatch) {
-                            req.session.isLoggedIn = true;
-                            req.session.rollNo = user.rollNo;
-                            res.redirect('/' + user.rollNo);
-                        } else {
-                            req.flash('loginError', 'Incorrect Password!')
-                            res.redirect('/login');
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
+    try {
+        const user = await User.findOne({
+            rollNo: rollNo
+        });
+        if (user) {
+            const passwordMatch = await bcrypt.compare(password, user.password);
+            if (passwordMatch) {
+                req.session.isLoggedIn = true;
+                req.session.rollNo = user.rollNo;
+                res.redirect('/' + user.rollNo);
             } else {
-                req.flash('loginError', 'User Not Registed!');
+                req.flash('loginError', 'Incorrect Password!')
                 res.redirect('/login');
             }
-        }) 
-        .catch(err => {
-            console.log(err);
-        });
+        } else {
+            req.flash('loginError', 'User Not Registed!');
+            res.redirect('/login');
+        }
+    } catch (err) {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
 };
 
-exports.getSignup = (req, res) => {
+exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
         pagetitle: 'Sign Up',
         isLoggedIn: false,
@@ -58,60 +56,49 @@ exports.getSignup = (req, res) => {
     });
 };
 
-exports.postSignup = (req, res) => {
+exports.postSignup = async (req, res, next) => {
     const name = req.body.name;
     const rollNo = req.body.rollNo;
     const semester = req.body.semester;
     const email = req.body.email;
     const mobile = req.body.mobile;
     const password = req.body.password;
-    User.findOne({ rollNo: rollNo })
-        .then(user => {
-            if (user) {
-                console.log('User already exists!');
-                req.flash('signupError', 'User already registered!');
-                res.redirect('/signup');
-            } else {
-                bcrypt.hash(password, 12)
-                    .then(hashedPassword => {
-                        const user = new User({
-                            name: name,
-                            rollNo: rollNo,
-                            semester: semester,
-                            email: email,
-                            mobile: mobile,
-                            password: hashedPassword
-                        });
-                        return user;
-                    })
-                    .then(user => {
-                        user.save()
-                            .then(result => {
-                                res.redirect('/login');
-                                return transporter.sendMail({
-                                    to: email,
-                                    from: 'nitstore@nitkkr.com',
-                                    subject: 'Signup Succeeded!',
-                                    html: '<h1>Your account have been created successfully!</h1><br><p>Thank You for using NITStore :)</p>'
-                                });
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            });
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
+    const user = await User.findOne({
+        rollNo: rollNo
+    });
+    try {
+        if (user) {
+            req.flash('signupError', 'User already registered!');
+            res.redirect('/signup');
+        } else {
+            const hashedPassword = await bcrypt.hash(password, 12);
+            const user = new User({
+                name: name,
+                rollNo: rollNo,
+                semester: semester,
+                email: email,
+                mobile: mobile,
+                password: hashedPassword
+            });
+            await user.save();
+            res.redirect('/login');
+            transporter.sendMail({
+                to: email,
+                from: 'nitstore@nitkkr.com',
+                subject: 'Signup Succeeded!',
+                html: '<h1>Your account have been created successfully!</h1><br><p>Thank You for using NITStore :)</p>'
+            });
+        }
+    } catch (err) {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
 };
 
 exports.postLogout = (req, res, next) => {
     req.session.destroy(err => {
-        // console.log(err);
+        console.log(err);
     });
     res.redirect('/');
 };

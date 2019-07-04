@@ -189,16 +189,17 @@ section {
 }
 
 .productContainer {
-    background-color: #122d3708;
+    background-color: #122d3720;
     padding: 10px;
     text-align: center;
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 .productContainer:hover {
-    background-color: #122d3710;
+    background-color: #122d3730;
 }
 
 .productContainer button {

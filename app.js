@@ -63,15 +63,23 @@ app.use(flash());
 const mainRoutes = require('./routes/main');
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
+const errorController = require('./controllers/error');
 
 app.use(mainRoutes);
 app.use(authRoutes);
 app.use(shopRoutes);
 
-app.use('/', (req, res, next) => {
-    res.status(404).render('error/404.ejs', {
-        pagetitle: 'Page Not Found!'
-    });
+app.use(errorController.get404);
+
+app.use((error, req, res, next) => {
+    if (error.httpStatusCode === 500) {
+        res.status(500).render('error/500', {
+            pagetitle: 'Internal Server Error',
+            errorMessage: error.message
+        });
+    } else {
+        next();
+    }
 });
 
 mongoose.connect(mongoURI, {

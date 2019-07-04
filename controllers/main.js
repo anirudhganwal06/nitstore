@@ -1,43 +1,40 @@
 const Product = require('../models/product');
 const User = require('../models/user');
 
-exports.getHomePage = (req, res, next) => {
-    Product.find()
-        .then(products => {
-            res.render('main/home', {
-                pagetitle: 'NIT Store',
-                isLoggedIn: false,
-                products: products
-            });
-        })
-        .catch(err => {
-            console.log(err);
+exports.getHomePage = async (req, res, next) => {
+    const products = await Product.find();
+    try {
+        res.render('main/home', {
+            pagetitle: 'NIT Store',
+            isLoggedIn: false,
+            products: products
         });
+    } catch (err) {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
 };
 
-exports.getProductDetailPage = (req, res) => {
+exports.getProductDetailPage = async (req, res, next) => {
     const product_id = req.params.product_id;
-    Product.findOne({
+    try {
+        const product = await Product.findOne({
             _id: product_id
-        })
-        .then(product => {
-            User.findOne({
-                    rollNo: product.sellerRollNo
-                })
-                .then(seller => {
-                    res.render('shop/productDetail.ejs', {
-                        pagetitle: 'Product Details',
-                        isLoggedIn: false,
-                        product: product,
-                        seller: seller,
-                        csrfToken: req.csrfToken()
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-        })
-        .catch(err => {
-            console.log(err);
         });
+        const seller = await User.findOne({
+            rollNo: product.sellerRollNo
+        });
+        res.render('shop/productDetail.ejs', {
+            pagetitle: 'Product Details',
+            isLoggedIn: false,
+            product: product,
+            seller: seller,
+            csrfToken: req.csrfToken()
+        });
+    } catch (err) {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
 };

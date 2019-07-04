@@ -32,47 +32,41 @@ const comparePasswords = () => {
 
 /******************  notify seller that a somebody is interested in his/her product ***************/
 
-let notifySeller = btn => {
+let notifySeller = async btn => {
     const product_id = btn.parentNode.querySelector('[name = product_id]').value;
     const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
     const csrf = btn.parentNode.querySelector('[name = _csrf]').value;
-    fetch('/' + rollNo + '/product/' + product_id + '/notify-seller', {
+    try {
+        const result = await fetch('/' + rollNo + '/product/' + product_id + '/notify-seller', {
             method: 'DELETE',
             headers: {
                 'csrf-token': csrf
             }
-        })
-        .then(result => {
-            return result.json();
-        })
-        .then(data => {
-            btn.parentNode.querySelector('[name = notify_message]').innerHTML = data.message;
-        })
-        .catch(err => {
-            console.log(err);
         });
+        const data = await result.json();
+        btn.parentNode.querySelector('[name = notify_message]').innerHTML = data.message;
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 /**************************************  delete a product ******************************************/
 
-let deleteProduct = btn => {
+let deleteProduct = async btn => {
     const product_id = btn.parentNode.querySelector('[name = product_id]').value;
     const rollNo = btn.parentNode.querySelector('[name = rollNo]').value;
     const imagePublicId = btn.parentNode.querySelector('[name = imagePublicId]').value;
     const csrf = btn.parentNode.querySelector('[name = _csrf]').value;
-    fetch('/' + rollNo + '/product/' + product_id + '/delete/' + imagePublicId.split('/')[1], {
+    try {
+        const result = await fetch('/' + rollNo + '/product/' + product_id + '/delete/' + imagePublicId.split('/')[1], {
             method: 'DELETE',
             headers: {
                 'csrf-token': csrf
             }
-        })
-        .then(result => {
-            return result.json();
-        })
-        .then(data => {
-            btn.parentNode.parentNode.parentNode.parentNode.removeChild(btn.parentNode.parentNode.parentNode);
-        })
-        .catch(err => {
-            console.log(err);
         });
+        const data = await result.json();
+        btn.parentNode.parentNode.parentNode.parentNode.removeChild(btn.parentNode.parentNode.parentNode);
+    } catch (err) {
+        console.log(err);
+    }
 }
