@@ -48,7 +48,7 @@ let notifySeller = async btn => {
     } catch (err) {
         console.log(err);
     }
-}
+};
 
 /**************************************  delete a product ******************************************/
 
@@ -69,4 +69,5 @@ let deleteProduct = async btn => {
     } catch (err) {
         console.log(err);
     }
-}
+};
+

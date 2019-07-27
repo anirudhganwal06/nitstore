@@ -11,10 +11,30 @@ const transporter = nodemailer.createTransport(sendgridTransport({
     }
 }));
 
+exports.getMyAccount = async (req, res, next) => {
+    const rollNo = req.params.rollNo;
+    try {
+        const user = await User.findOne({
+            rollNo: rollNo
+        });
+        res.render('main/myAccount', {
+            pagetitle: 'Profile | ' + anotheruser.name,
+            isLoggedIn: true,
+            rollNo: rollNo,
+            username: user.name,
+            numberOfNewNotifications: user.numberOfNewNotifications,
+            csrfToken: req.csrfToken()
+        });
+    } catch (err) {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
+};
+
 exports.getUserHomePage = async (req, res, next) => {
     let rollNo = req.params.rollNo;
     try {
-
         const user = await User.findOne({
             rollNo: rollNo
         });

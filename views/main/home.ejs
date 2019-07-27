@@ -1,5 +1,22 @@
 <%- include('../includes/start.ejs') %>
 
+	<script>
+        /***************************************  maintain aspect ratio  ************************************/
+
+        const maintainAspectRatio = img => {
+            imgWidth = img.width;
+            imgHeight = img.height;
+            if (imgWidth > imgHeight) {
+                img.style.width = '100%';
+            } else {
+                img.style.height = '100%';
+            }
+            console.log('Image width = ' + imgWidth);
+            console.log('Image height = ' + imgHeight);
+        };
+
+	</script>
+	
 </head>
 
 <body>
@@ -25,7 +42,9 @@
 							<a href="/product/<%= product._id %>">
 							<% } %>
 								<div class="productContainer">
-									<img class="productImage" src="<%= product.imageURL %>">
+									<div class="productImageContainer">
+										<img class="productImage" src="<%= product.imageURL %>" onload="maintainAspectRatio(this);">
+									</div>
 									<h1 class="productPrice">Rs. <%= product.price %></h1>
 									<h1 class="productName"><%= product.shortdesc %></h1>
 								</div>

@@ -1,4 +1,27 @@
 <%- include('../includes/start.ejs') %>
+
+    <script>
+        /***************************************  maintain aspect ratio  ************************************/
+
+        const maintainAspectRatio = img => {
+            let imgWidth = img.width;
+            let imgHeight = img.height;
+            let parentWidth = img.parentNode.clientWidth;
+            let parentHeight = img.parentNode.clientHeight;
+            img.style.margin = 'auto';
+            // console.log(img.parentNode.clientWidth);
+            // console.log(img.parentNode.clientHeight);
+            if (imgWidth/imgHeight > parentWidth/parentHeight) {
+                img.style.width = '95%';
+            } else {
+                img.style.height = '95%';
+            }
+            console.log('Image width = ' + imgWidth);
+            console.log('Image height = ' + imgHeight);
+        };
+
+    </script>
+
 </head>
 
 <body>
@@ -8,7 +31,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-6 ">
-                    <img class="product-detail-image" src="<%= product.imageURL %>" >
+                    <div class="product-detail-image-container">
+                        <img src="<%= product.imageURL %>" onload="maintainAspectRatio(this);">
+                    </div>
                     <% if (isLoggedIn) { %>
                         <% if(rollNo !== seller.rollNo) { %>
                             <input name="product_id" value="<%= product._id %>" hidden>
@@ -17,7 +42,7 @@
                             <button class="btn theme-hover-btn-inverse btn-block" onclick="notifySeller(this);">NOTIFY SELLER ABOUT ME</button>
                             <p class="green-color text-center" name="notify_message"></p>
                         <% } else { %>
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-6">
                                     <a href="/<%= rollNo %>/product/<%= product._id %>/edit">
                                         <button class="btn btn-block theme-hover-btn-inverse">EDIT</button>
