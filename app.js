@@ -10,12 +10,14 @@ const flash = require('connect-flash');
 const multer = require('multer');
 const cloudinary = require('cloudinary');
 const cloudinaryStorage = require('multer-storage-cloudinary');
+const dotenv = require('dotenv');
 const uniqid = require('uniqid');
 
-const mongoURI = 'mongodb+srv://anirudhganwal06:mongodb06@cluster0-mqwgk.mongodb.net/test?retryWrites=true&w=majority';
+dotenv.config();
+const mongoURI = process.env.mongoURI;
 const CLOUD_NAME = 'nitstore';
-const API_KEY = '662278785976996';
-const API_SECRET = 'x4rqy2h6dMIw_KAeE_hrBSk-gNI';
+const API_KEY = process.env.API_KEY;
+const API_SECRET = process.env.API_SECRET;
 
 
 const app = express();
