@@ -7,7 +7,7 @@ const Product = require('../models/product');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
-        api_key: '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'
+        api_key: process.env.SENDGRID_API_KEY
     }
 }));
 
@@ -18,7 +18,7 @@ exports.getMyAccount = async (req, res, next) => {
             rollNo: rollNo
         });
         res.render('main/myAccount', {
-            pagetitle: 'Profile | ' + anotheruser.name,
+            pagetitle: 'Profile | ' + user.name,
             isLoggedIn: true,
             rollNo: rollNo,
             username: user.name,
