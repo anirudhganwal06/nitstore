@@ -102,3 +102,114 @@ exports.postLogout = (req, res, next) => {
     });
     res.redirect('/');
 };
+
+exports.getChangePassword = async (req, res, next) => {
+    const rollNo = req.params.rollNo;
+    const user = await User.findOne({
+        rollNo: rollNo
+    });
+    res.render('auth/changePassword', {
+        pagetitle: 'Change Password',
+        isLoggedIn: true,
+        rollNo: rollNo,
+        username: user.name,
+        numberOfNewNotifications: user.numberOfNewNotifications,
+        incorrectOldPasswordError: req.flash('incorrectOldPasswordError'),
+        csrfToken: req.csrfToken()
+    });
+};
+
+exports.postChangePassword = async (req, res, next) => {
+    try {
+        const rollNo = req.params.rollNo;
+        const user = await User.findOne({rollNo: rollNo});
+        const oldPassword = req.body.oldPassword;
+        const passwordMatch = await bcrypt.compare(oldPassword, user.password);
+        if (passwordMatch) {
+            const newPassword = req.body.newPassword;
+            const newHashed = await bcrypt.hash(newPassword, 12);
+            await User.updateOne({
+                rollNo: rollNo
+            }, {
+                password: newHashed
+            });
+            transporter.sendMail({
+                to: user.email,
+                from: 'nitstore@nitkkr.com',
+                subject: 'Password Changed!',
+                html: '<h2>Your password has been changed successfully!</h2><br><p>Thank You for using NITStore :)</p>'
+            });
+            res.redirect('/' + rollNo + '/my-account');
+        } else {
+            req.flash('incorrectOldPasswordError', 'Incorrect Password!');
+            res.redirect('/' + rollNo + '/change-password');
+        }
+    } catch {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
+};
+
+exports.getForgotPassword = async (req, res, next) => {
+    try {
+        const rollNo = req.params.rollNo;
+        const user = await User.findOne({
+            rollNo: rollNo
+        });
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        await transporter.sendMail({
+            to: user.email,
+            from: 'nitstore@nitkkr.com',
+            subject: 'Forgot Password!',
+            html: '<h4>Enter the below OTP in the redirected page of the website</h4><br><h3>OTP : ' + otp + '</h3><br><p>Thank You for using NITStore :)</p>'
+        });
+        res.render('auth/forgotPassword', {
+            pagetitle: 'Forgot Password',
+            isLoggedIn: true,
+            rollNo: rollNo,
+            username: user.name,
+            userEmail: user.email,
+            numberOfNewNotifications: user.numberOfNewNotifications,
+            incorrectOTPError: req.flash('incorrectOTPError'),
+            sentOTP: otp,
+            csrfToken: req.csrfToken()
+        });
+    } catch {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
+};
+
+exports.postForgotPassword = async (req, res, next) => {
+    try {
+        const rollNo = req.params.rollNo;
+        const sentOTP = req.body.sentOTP;
+        const otp = req.body.otp;
+        const user = await User.findOne({rollNo: rollNo});
+        if (otp == sentOTP) {
+            const newPassword = req.body.newPassword;
+            const newHashed = await bcrypt.hash(newPassword, 12);
+            await User.updateOne({
+                rollNo: rollNo
+            }, {
+                password: newHashed
+            });
+            transporter.sendMail({
+                to: user.email,
+                from: 'nitstore@nitkkr.com',
+                subject: 'Password Changed!',
+                html: '<h2>Your password has been changed successfully!</h2><br><p>Thank You for using NITStore :)</p>'
+            });
+            res.redirect('/' + rollNo + '/my-account');
+        } else {
+            req.flash('incorrectOTPError', 'Incorrect OTP! Another OTP is sent to your email address.');
+            res.redirect('/' + rollNo + '/forgot-password');
+        }
+    } catch {
+        const error = new Error('Something went wrong with the Database!');
+        error.httpStatusCode = 500;
+        return next(error);
+    }
+};

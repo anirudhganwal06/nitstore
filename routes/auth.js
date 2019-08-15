@@ -14,6 +14,14 @@ router.get('/signup', isNotAuth, authController.getSignup);
 
 router.post('/signup', isNotAuth, authController.postSignup);
 
+router.get('/:rollNo/change-password', isAuth, authController.getChangePassword);
+
+router.post('/:rollNo/change-password', isAuth, authController.postChangePassword);
+
+router.get('/:rollNo/forgot-password', isAuth, authController.getForgotPassword);
+
+router.post('/:rollNo/forgot-password', isAuth, authController.postForgotPassword);
+
 router.post('/:rollNo/logout', isAuth, authController.postLogout);
 
 module.exports = router;

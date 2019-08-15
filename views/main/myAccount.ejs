@@ -7,13 +7,16 @@
 
     <section id="userProfileSection">
         <div class="container">
-            <h1><b><%= anotheruser.name %></b></h1>
+            <h1><b><%= user.name %></b></h1>
             <hr>
             <h1 class="mb-4">Details</h1>
-            <h3><b>Roll Number :</b> <%= anotheruser.rollNo %></h3>
-            <h3><b>Semester :</b> <%= anotheruser.semester %></h3>
-            <h3><b>Email :</b> <%= anotheruser.email %></h3>
-            <h3><b>Mobile Number :</b> <%= anotheruser.mobile %></h3>
+            <h3><b>Roll Number :</b> <%= user.rollNo %></h3>
+            <h3><b>Semester :</b> <%= user.semester %></h3>
+            <h3><b>Email :</b> <%= user.email %></h3>
+            <h3><b>Mobile Number :</b> <%= user.mobile %></h3>
+            <br>
+            <a href="/<%= user.rollNo %>/change-password"><button class="btn theme-hover-btn-inverse">Change Password</button></a>
+            <a href="/<%= user.rollNo %>/forgot-password"><button class="btn theme-hover-btn-inverse">Forgot Password</button>            </a>
         </div>
     </section> 
 

@@ -23,7 +23,8 @@ exports.getMyAccount = async (req, res, next) => {
             rollNo: rollNo,
             username: user.name,
             numberOfNewNotifications: user.numberOfNewNotifications,
-            csrfToken: req.csrfToken()
+            csrfToken: req.csrfToken(),
+            user: user
         });
     } catch (err) {
         const error = new Error('Something went wrong with the Database!');
@@ -378,7 +379,6 @@ exports.postEditProduct = async (req, res, next) => {
             return next(error);
         }
     }
-
 };
 
 exports.getDeleteProduct = async (req, res, next) => {
