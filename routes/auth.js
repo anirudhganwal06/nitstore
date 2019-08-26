@@ -18,9 +18,13 @@ router.get('/:rollNo/change-password', isAuth, authController.getChangePassword)
 
 router.post('/:rollNo/change-password', isAuth, authController.postChangePassword);
 
-router.get('/:rollNo/forgot-password', isAuth, authController.getForgotPassword);
+router.post('/:rollNo/send-otp', authController.postSendOtp);
 
-router.post('/:rollNo/forgot-password', isAuth, authController.postForgotPassword);
+router.post('/:rollNo/forgot-password', authController.postForgotPassword);
+
+router.get('/get-rollNo', isNotAuth, authController.getRollNo);
+
+router.post('/get-rollNo', isNotAuth, authController.postGetRollNo);
 
 router.post('/:rollNo/logout', isAuth, authController.postLogout);
 

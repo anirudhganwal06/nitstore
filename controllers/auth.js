@@ -151,7 +151,7 @@ exports.postChangePassword = async (req, res, next) => {
     }
 };
 
-exports.getForgotPassword = async (req, res, next) => {
+exports.postSendOtp = async (req, res, next) => {
     try {
         const rollNo = req.params.rollNo;
         const user = await User.findOne({
@@ -213,3 +213,17 @@ exports.postForgotPassword = async (req, res, next) => {
         return next(error);
     }
 };
+
+exports.getRollNo = (req, res) => {
+    res.render('auth/getRollNo', {
+        pagetitle: 'Provide Roll Number',
+        isLoggedIn: false,
+        csrfToken: req.csrfToken()
+    });
+}
+
+exports.postGetRollNo = (req, res) => {
+    const rollNo = req.body.rollNo;
+    res.redirect(307, '/' + rollNo + '/send-otp');
+}
+

@@ -37,11 +37,11 @@ const imageStore = cloudinaryStorage({
     cloudinary: cloudinary,
     folder: "images",
     allowedFormats: ["jpg", "jpeg", "png"],
-    // transformation: [{
-    //     width: 500,
-    //     height: 500,
-    //     crop: "limit"
-    // }]
+    transformation: [{
+        width: 500,
+        height: 500,
+        crop: "limit"
+    }]
 });
 
 app.set('views', 'views');

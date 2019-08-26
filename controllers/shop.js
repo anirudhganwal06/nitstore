@@ -129,7 +129,8 @@ exports.getNotifications = (req, res, next) => {
     }, {
         numberOfNewNotifications: 0
     }, {
-        new: false
+        new: false,
+        useFindAndModify: false
     }, (err, user) => {
         if (err) {
             const error = new Error('Something went wrong with the Database!');

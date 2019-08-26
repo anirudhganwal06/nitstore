@@ -16,7 +16,10 @@
             <h3><b>Mobile Number :</b> <%= user.mobile %></h3>
             <br>
             <a href="/<%= user.rollNo %>/change-password"><button class="btn theme-hover-btn-inverse">Change Password</button></a>
-            <a href="/<%= user.rollNo %>/forgot-password"><button class="btn theme-hover-btn-inverse">Forgot Password</button>            </a>
+            <form style="display: inline-block" action="/<%= user.rollNo %>/send-otp" method="POST">
+                <button class="btn theme-hover-btn-inverse">Forgot Password</button>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            </form>
         </div>
     </section> 
 
