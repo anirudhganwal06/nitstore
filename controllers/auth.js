@@ -166,7 +166,7 @@ exports.postSendOtp = async (req, res, next) => {
         });
         res.render('auth/forgotPassword', {
             pagetitle: 'Forgot Password',
-            isLoggedIn: true,
+            isLoggedIn: req.session.isLoggedIn,
             rollNo: rollNo,
             username: user.name,
             userEmail: user.email,
@@ -218,12 +218,21 @@ exports.getRollNo = (req, res) => {
     res.render('auth/getRollNo', {
         pagetitle: 'Provide Roll Number',
         isLoggedIn: false,
+        getRollNoError: req.flash('getRollNoError'),
         csrfToken: req.csrfToken()
     });
 }
 
-exports.postGetRollNo = (req, res) => {
+exports.postGetRollNo = async (req, res) => {
     const rollNo = req.body.rollNo;
-    res.redirect(307, '/' + rollNo + '/send-otp');
+    const user = await User.findOne({
+        rollNo: rollNo
+    });
+    if (user) {
+        res.redirect(307, '/' + rollNo + '/send-otp');
+    } else {
+        req.flash('getRollNoError', 'No account found for Roll Number: ' + rollNo);
+        res.redirect('/get-rollNo');
+    }
 }
 

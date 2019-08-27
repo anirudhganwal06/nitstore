@@ -13,6 +13,9 @@
                         <label for="rollNo">Roll Number</label>
                         <input name="rollNo" class="form-control" type="text" required>
                     </div>
+                    <div class="col-9 col-md-12 form-group">
+                        <p class="red-color text-center"><%= getRollNoError %></p>
+                    </div>
                     <div class="col-9 col-md-12 form-group mt-5 ">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit" class="btn btn-block btn-primary">SEND OTP</button>
