@@ -1,7 +1,10 @@
+// importing mongoose
 const mongoose = require('mongoose');
 
+// creating a schema constant from mongoose.Schema
 const Schema = mongoose.Schema;
 
+// creating a product schema 
 const productSchema = new Schema({
     shortdesc: {
         type: String,
@@ -45,4 +48,5 @@ const productSchema = new Schema({
     }
 });
 
+// exporting product schema
 module.exports = mongoose.model('Product', productSchema);

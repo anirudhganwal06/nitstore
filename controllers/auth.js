@@ -1,9 +1,12 @@
+// importing third party packages
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 
+// loading the user model
 const User = require('../models/user');
 
+// configuring nodemailer for sending emails
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
         api_key: process.env.SENDGRID_API_KEY
@@ -122,7 +125,7 @@ exports.getChangePassword = async (req, res, next) => {
 exports.postChangePassword = async (req, res, next) => {
     try {
         const rollNo = req.params.rollNo;
-        const user = await User.findOne({rollNo: rollNo});
+        const user = await User.findOne({ rollNo: rollNo });
         const oldPassword = req.body.oldPassword;
         const passwordMatch = await bcrypt.compare(oldPassword, user.password);
         if (passwordMatch) {
@@ -187,7 +190,7 @@ exports.postForgotPassword = async (req, res, next) => {
         const rollNo = req.params.rollNo;
         const sentOTP = req.body.sentOTP;
         const otp = req.body.otp;
-        const user = await User.findOne({rollNo: rollNo});
+        const user = await User.findOne({ rollNo: rollNo });
         if (otp == sentOTP) {
             const newPassword = req.body.newPassword;
             const newHashed = await bcrypt.hash(newPassword, 12);

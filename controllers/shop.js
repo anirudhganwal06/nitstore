@@ -1,10 +1,13 @@
+// importing third party packages
 const cloudinary = require('cloudinary');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 
+// loading the user and product database models
 const User = require('../models/user');
 const Product = require('../models/product');
 
+// configuring nodemailer
 const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
         api_key: process.env.SENDGRID_API_KEY

@@ -1,6 +1,10 @@
+// importing mongoose
 const mongoose = require('mongoose');
 
+// creating a constant from mongoose.Schema
 const Schema = mongoose.Schema;
+
+// creating a user schema
 
 const userSchema = new Schema({
     name: {
@@ -42,4 +46,5 @@ const userSchema = new Schema({
     }
 });
 
+// expoting the user schema
 module.exports = mongoose.model('User', userSchema);
